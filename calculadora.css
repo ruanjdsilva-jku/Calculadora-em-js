@@ -10,7 +10,7 @@ html {
 }
 
 body {
-    max-height: 100vh;
+    max-height: 100dvh;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.5;
     background-color: #ffffff;
@@ -44,7 +44,7 @@ ol {
 }
 
 #calculadora{width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     border: 1px solid black;
 }
 
