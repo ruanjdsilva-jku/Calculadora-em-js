@@ -1,51 +1,41 @@
-const numeros = document.querySelectorAll(".numero");
+const TextNumeros = document.querySelectorAll(".numero");
 const Textresultado = document.getElementById("resultado");
 const TextCalculo = document.getElementById("calculo");
 const TextIgual =  document.getElementById("igual");
 const TextAll =  document.getElementById("all");
 const TextClear =  document.getElementById("clear");
+const Textoperadores = document.querySelectorAll(".operador");
 
 
 var calculo = []
 var resultado
 
-numeros.forEach(numero => {
-    numero.addEventListener("click", () => {
-        console.log("Número clicado:", numero.textContent);
+TextNumeros.forEach(TextNumero => {
+    TextNumero.addEventListener("click", () => {
         if (typeof calculo[calculo.length - 1] != "number") {
-    calculo.push(Number(numero.textContent));
-    console.log("calculo", calculo);
+    calculo.push(Number(TextNumero.textContent));
     FazerCalculo(calculo)
             }
             else{
                 calculo[calculo.length - 1] = Number(
-                String(calculo[calculo.length - 1]) + numero.textContent
+                String(calculo[calculo.length - 1]) + TextNumero.textContent
             );
-                ;console.log("calculo", calculo);
             }
-             resultado = calculo[0]
         FazerCalculo(calculo)
-
     }
     
 );
 
 });
 
-const operadores = document.querySelectorAll(".operador");
-
-operadores.forEach(operador => {
+Textoperadores.forEach(operador => {
     operador.addEventListener("click", () => {
-        console.log("Operador clicado:", operador.textContent);
         if (calculo.length > 0 && typeof calculo[calculo.length - 1] === "number") {
     calculo.push(operador.textContent);
-    console.log(calculo);
     TextCalculo.textContent = calculo.join("");
-        
         }
         else if(typeof calculo[calculo.length - 1] === "string"){
             calculo[calculo.length-1]=operador.textContent
-            console.log("calculo", calculo);
             TextCalculo.textContent = calculo.join("");
         }
     });
@@ -72,9 +62,7 @@ TextClear.addEventListener("click",()=>{
     }else if(calculo[calculo.length-1]>10){  
         calculo[calculo.length-1] = Number(String(calculo[calculo.length-1]).slice(0,-1))
     }
-    if(typeof (calculo[calculo.length-1]) !== "string"){
     FazerCalculo(calculo)
-    }
 })
 
 function FazerCalculo(mostrarCalculo) {
@@ -83,33 +71,28 @@ function FazerCalculo(mostrarCalculo) {
     }
     if (mostrarCalculo.length >= 3) {
         mostrarCalculo.forEach((e, indice) => {
-            console.log(indice);
+
+            if(mostrarCalculo[indice + 1]==undefined){
+                return
+            }
 
             if (indice % 2 !== 0) {
-                console.log(e);
 
                 switch (e) {
                     case "+":
-                        console.log(typeof resultado);
-                        console.log(typeof mostrarCalculo[indice + 1]);
-
                         resultado += mostrarCalculo[indice + 1];
-                        console.log("resultado", resultado);
                         break;
 
                     case "/":
                         resultado /= mostrarCalculo[indice + 1];
-                        console.log("resultado", resultado);
                         break;
 
                     case "x":
                         resultado *= mostrarCalculo[indice + 1];
-                        console.log("resultado", resultado);
                         break;
 
                     case "-":
                         resultado -= mostrarCalculo[indice + 1];
-                        console.log("resultado", resultado);
                         break;
                 }
 
