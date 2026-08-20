@@ -14,14 +14,13 @@ TextNumeros.forEach(TextNumero => {
     TextNumero.addEventListener("click", () => {
         if (typeof calculo[calculo.length - 1] != "number") {
     calculo.push(Number(TextNumero.textContent));
-    FazerCalculo(calculo)
             }
             else{
                 calculo[calculo.length - 1] = Number(
                 String(calculo[calculo.length - 1]) + TextNumero.textContent
             );
             }
-        FazerCalculo(calculo)
+        FiltrarCalculo(calculo)
     }
     
 );
@@ -62,18 +61,20 @@ TextClear.addEventListener("click",()=>{
     }else if(calculo[calculo.length-1]>10){  
         calculo[calculo.length-1] = Number(String(calculo[calculo.length-1]).slice(0,-1))
     }
-    FazerCalculo(calculo)
+    if(typeof(calculo[calculo.length-1]) !=="string"){
+    FiltrarCalculo(calculo)}
 })
 
-function FazerCalculo(mostrarCalculo) {
-    if(mostrarCalculo.length >= 1){
-        resultado=calculo[0]
+function FazerCalculo(mostrarCalculo, TextoDeCalculo) {
+    if (mostrarCalculo.length >= 1) {
+        resultado = mostrarCalculo[0];
     }
+
     if (mostrarCalculo.length >= 3) {
         mostrarCalculo.forEach((e, indice) => {
 
-            if(mostrarCalculo[indice + 1]==undefined){
-                return
+            if (mostrarCalculo[indice + 1] == undefined) {
+                return;
             }
 
             if (indice % 2 !== 0) {
@@ -95,14 +96,44 @@ function FazerCalculo(mostrarCalculo) {
                         resultado -= mostrarCalculo[indice + 1];
                         break;
                 }
-
-                Textresultado.textContent = resultado;
-                TextCalculo.textContent = mostrarCalculo.join("");
             }
         });
 
+        Textresultado.textContent = resultado;
+        TextCalculo.textContent = TextoDeCalculo.join("");
+
     } else {
-        TextCalculo.textContent = mostrarCalculo.join("");
-        Textresultado.textContent=""
+        TextCalculo.textContent = TextoDeCalculo.join("");
+
+        if (mostrarCalculo.length === 0) {
+            Textresultado.textContent = "";
+        } else {
+            Textresultado.textContent = resultado;
+        }
     }
 }
+
+function FiltrarCalculo(calculo){
+    let amostraCalculo = [...calculo]
+    let calculoFiltrado = [...calculo]
+    
+    if(calculoFiltrado.length>4){
+   for (let index = 0; index < calculoFiltrado.length; index++) {
+        if(calculoFiltrado[index]=="x"){
+            let gravarDados=calculoFiltrado.slice(index-1,index+2)
+            let resultadoMultiplicacao=gravarDados[0] * gravarDados[2]
+            calculoFiltrado.splice(index-1,3,resultadoMultiplicacao)
+            index = -1
+        }
+        if(calculoFiltrado[index]=="/"){
+            let gravarDados=calculoFiltrado.slice(index-1,index+2)
+            let resultadoDivisao=gravarDados[0] / gravarDados[2]
+            calculoFiltrado.splice(index-1,3,resultadoDivisao)
+            index = -1
+            
+        }
+   }
+}
+    FazerCalculo(calculoFiltrado,amostraCalculo)
+}
+
